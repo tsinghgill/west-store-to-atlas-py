@@ -1,0 +1,7 @@
+{
+    "name": "west-store-to-atlas-py",
+    "language": "python",
+    "resources": {
+        "source_name": "fixtures/demo-cdc.json"
+    }
+}
