@@ -8,18 +8,17 @@ from turbine.src.turbine_app import RecordList, TurbineApp
 logging.basicConfig(level=logging.INFO)
 
 
-def transform(records: RecordList) -> RecordList:
-    print("Inside Tranform for west-store-to-atlas")
+def anonymize(records: RecordList) -> RecordList:
     logging.info(f"processing {len(records)} record(s)")
     for record in records:
-        print("Inside Tranform FOR LOOP for west-store-to-atlas")
         logging.info(f"input: {record}")
         try:
-            record.value["payload"]["store_id"] = "002"
-            record.value["payload"]["store_location"] = "west"
+            payload = record.value["payload"]["after"]
 
-            record.value["payload"]["after"]["store_id"] = "002"
-            record.value["payload"]["after"]["store_location"] = "west"
+            # Hash the email
+            payload["email"] = hashlib.sha256(
+                payload["email"].encode("utf-8")
+            ).hexdigest()
 
             logging.info(f"output: {record}")
         except Exception as e:
@@ -38,7 +37,7 @@ class App:
 
             # turbine.register_secrets("PWD")
 
-            transformed = await turbine.process(records, transform)
+            transformed = await turbine.process(records, anonymize)
             
             destination_db = await turbine.resources("mongo-atlas")
 
