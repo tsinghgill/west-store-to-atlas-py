@@ -38,7 +38,7 @@ class App:
 
             # turbine.register_secrets("PWD")
 
-            transformed = await turbine.process(records, anonymize)
+            transformed = await turbine.process(records, transform)
             
             destination_db = await turbine.resources("mongo-atlas")
 
