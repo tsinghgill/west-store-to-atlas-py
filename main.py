@@ -8,17 +8,18 @@ from turbine.src.turbine_app import RecordList, TurbineApp
 logging.basicConfig(level=logging.INFO)
 
 
-def anonymize(records: RecordList) -> RecordList:
+def transform(records: RecordList) -> RecordList:
+    print("Inside Tranform for west-store-to-atlas")
     logging.info(f"processing {len(records)} record(s)")
     for record in records:
+        print("Inside Tranform FOR LOOP for west-store-to-atlas")
         logging.info(f"input: {record}")
         try:
-            payload = record.value["payload"]["after"]
+            record.value["payload"]["store_id"] = "002"
+            record.value["payload"]["store_location"] = "west"
 
-            # Hash the email
-            payload["email"] = hashlib.sha256(
-                payload["email"].encode("utf-8")
-            ).hexdigest()
+            record.value["payload"]["after"]["store_id"] = "002"
+            record.value["payload"]["after"]["store_location"] = "west"
 
             logging.info(f"output: {record}")
         except Exception as e:
