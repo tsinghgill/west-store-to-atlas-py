@@ -42,7 +42,7 @@ class App:
             
             destination_db = await turbine.resources("mongo-atlas")
 
-            await destination_db.write(transformed, "alldispensedmedicine", {
+            await destination_db.write(transformed, "dispensed_pills_from_west_store", {
                 "transforms": "unwrap",
                 "transforms.unwrap.type": "io.debezium.connector.mongodb.transforms.ExtractNewDocumentState"
             })
